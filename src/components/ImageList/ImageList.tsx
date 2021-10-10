@@ -1,25 +1,55 @@
-import React from "react";
-import {StyleSheet, Image, Text, View} from 'react-native';
+import * as React from "react";
+import {StyleSheet, Image, Text, View, FlatList, Button} from 'react-native';
 import ImageBox from "./ImageBox/ImageBox";
+import {connect, ConnectedProps} from "react-redux";
+import {AppStateType} from "../../store/store";
+import {GET_IMAGES} from "../../store/saga/saga";
+import {SET_FAVORITE} from "../../store/reducers/images_reducer";
 
-const ImageList = () => (
-    <View>
-        <ImageBox />
-        <ImageBox />
-        <ImageBox />
-    </View>
+const mapStateToProps = (state: AppStateType) => ({
+    ...state.images
+})
 
-)
+function mapDispatchToProps(dispatch: any) {
+    return {
+        getImages: () => {
+            dispatch({type: GET_IMAGES})
+        },
+        setFavorite: (id: number) => {
+            dispatch({type: SET_FAVORITE, id})
+        }
+    }
+}
+
+let connector = connect(mapStateToProps, mapDispatchToProps)
+type DialogProps = ConnectedProps<typeof connector>;
+
+const ImageList = (props: DialogProps) => {
+    if (props.data) {
+        let difference = props.data.length % 4
+        for (let i = 0; i < difference; i++) {
+            props.data.push({urls: {small: "", full: ""}, name: "", favorite: false})
+        }
+    }
+
+    return (
+        <View style={styles.container}>
+            <Button onPress={props.getImages} title={"aasdsd"}/>
+            {props.data ? <FlatList
+                data={props.data}
+                renderItem={({item, index}) => <ImageBox url={item.urls.small} key={item.key} id={index} click={props.setFavorite} favorite={item.favorite}/>}
+                numColumns={4}
+            /> : <Text>nothing</Text>}
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
-        height: 60,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundGradient: "vertical",
-        backgroundGradientTop: "#fff",
-        backgroundGradientBottom: "#000"
-        //background: "linear-gradient(180deg,  0%, #BC1399 100%);"
+        flex: 1,
+        borderWidth: 0,
+        margin: 11.5,
+        marginBottom: 0
     },
     text: {
         fontFamily: "Open Sans",
@@ -33,13 +63,12 @@ const styles = StyleSheet.create({
         paddingRight: 15,
         borderRadius: 5
     },
+    MainContainer: {
+        justifyContent: 'center',
+        flex: 1,
+        margin: 10,
+        paddingTop: 0
+    },
 })
 
-
-
-
-export default ImageList
-
-
-
-//#C4C4C4
+export default connector(ImageList)

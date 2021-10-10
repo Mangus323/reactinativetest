@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 const Header = () => (
     <View style={styles.container}>
         {/*<LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>*/}
-            <Text style={styles.text}>12312</Text>
+            <Text style={styles.text}>abcd</Text>
         {/*</LinearGradient>*/}
     </View>
 
@@ -16,9 +16,9 @@ const styles = StyleSheet.create({
         height: 60,
         alignItems: "center",
         justifyContent: "center",
-        backgroundGradient: "vertical",
-        backgroundGradientTop: "#fff",
-        backgroundGradientBottom: "#000"
+        backgroundColor: "#ffaaaa"
+
+
         //background: "linear-gradient(180deg,  0%, #BC1399 100%);"
     },
     text: {
