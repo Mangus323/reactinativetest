@@ -1,24 +1,26 @@
-import React from "react";
+import * as React from "react";
 import {StyleSheet, View, Text} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+//import LinearGradient from 'react-native-linear-gradient';
 
-const Header = () => (
-    <View style={styles.container}>
-        {/*<LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>*/}
-            <Text style={styles.text}>abcd</Text>
-        {/*</LinearGradient>*/}
-    </View>
+const Header = (props: {title?: string}) => {
 
-)
+    return (
+        <View style={styles.container}>
+            {/*<LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>*/}
+            <Text style={styles.text}>{props.title ? props.title : "null"}</Text>
+            {/*</LinearGradient>*/}
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
         height: 60,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#ffaaaa"
-
-
+        backgroundColor: "#ffaaaa",
+        borderBottomLeftRadius: 20,
+        borderBottomEndRadius: 20
         //background: "linear-gradient(180deg,  0%, #BC1399 100%);"
     },
     text: {
@@ -34,8 +36,6 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
 })
-
-
 
 
 export default Header

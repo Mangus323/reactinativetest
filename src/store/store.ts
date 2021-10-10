@@ -9,7 +9,6 @@ let reducers = combineReducers({
 })
 
 
-
 const sagaMiddleWare = createSagaMiddleware()
 
 type ReducersType = typeof reducers;

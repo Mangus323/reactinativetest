@@ -3,24 +3,29 @@ import {StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native';
 import {Path, Svg} from "react-native-svg";
 
 type PropsType = {
-    url: string,
-    id: number,
-    favorite?: boolean
-    click: (id: number) => void
+    data?: {
+        url: string,
+        favorite: boolean
+        click: (id: number) => void
+        id: number
+    },
+
 }
 
 const ImageBox = (props: PropsType) => {
+    if (!props.data) return <View style={styles.empty}/>
+
     const onClick = () => {
-        props.click(props.id)
+        props.data.click(props.data.id)
     }
 
-
-    return !props.url ? <View style={styles.empty}/> :
+    return props.data ?
         <TouchableOpacity onPress={onClick} style={styles.container}>
-            {props.favorite && <FavoriteButton/>}
-            <Image source={{uri: props.url}} style={styles.img}/>
+            {props.data.favorite && <FavoriteButton/>}
+            <Image source={{uri: props.data.url}} style={styles.img}/>
 
-        </TouchableOpacity>
+        </TouchableOpacity> :
+        <View style={styles.empty}/>
 
 }
 
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
     }
 
 })
+
 const FavoriteButton = () => (
     <View style={styles.button}>
         <Svg
@@ -75,3 +81,5 @@ const FavoriteButton = () => (
 )
 
 export default ImageBox
+
+

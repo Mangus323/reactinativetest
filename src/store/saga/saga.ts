@@ -1,6 +1,6 @@
 import {call, put, takeEvery} from 'redux-saga/effects'
 import axios from "axios";
-import {ImageBlock, SET_DATA} from "../reducers/images_reducer";
+import {ImageBlock, LOAD, SET_DATA} from "../reducers/images_reducer";
 
 let url = axios.create({
     baseURL: "https://api.unsplash.com/photos",
@@ -15,9 +15,11 @@ function getImages() {
 
 function* sagaGetImages(action) {
     try {
+        yield put({type: LOAD, loading: true})
         let response = yield call(getImages)
-        let data: Array<ImageBlock> = response.data.map((item) => {
+        let data: Array<ImageBlock> = response.data.map((item, index) => {
             return {
+                id: index,
                 name: item.created_at,
                 urls: {
                     full: item.urls.full,
@@ -27,6 +29,7 @@ function* sagaGetImages(action) {
             }
         })
         yield put({type: SET_DATA, data})
+        yield put({type: LOAD, loading: false})
     } catch (e) {
         console.log(e)
     }
